@@ -44,10 +44,14 @@ pipeline {
 		    steps {
 			    script {
 				    echo "Push Docker Image"
-				    withCredentials([string(credentialsId: 'dockerHub', variable: 'dockerHub')]) {
-            				sh "docker login -u anis2k07 -p ${dockerHub}"
-				    }
-				        myimage.push("${env.BUILD_ID}")
+				    docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
+
+                                        def customImage = docker.build("anis2k07/jenkins")
+
+                                       /* Push the container to the custom Registry */
+                                         customImage.push("${env.BUILD_ID}")
+                                    }
+				       
 				    
 			    }
 		    }
