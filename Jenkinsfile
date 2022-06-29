@@ -5,7 +5,7 @@ pipeline {
 	}
 	
 	environment {
-		PROJECT_ID = 'jenkins-296812'
+		PROJECT_ID = 'anis020720'
                 CLUSTER_NAME = 'k8s-cluster'
                 LOCATION = 'us-central1-c'
                 CREDENTIALS_ID = 'kubernetes'		
@@ -35,7 +35,7 @@ pipeline {
 		    steps {
 			    sh 'whoami'
 			    script {
-				    myimage = docker.build("ameintu/devops:${env.BUILD_ID}")
+				    myimage = docker.build("anis2k07/jenkins:${env.BUILD_ID}")
 			    }
 		    }
 	    }
@@ -44,8 +44,8 @@ pipeline {
 		    steps {
 			    script {
 				    echo "Push Docker Image"
-				    withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
-            				sh "docker login -u ameintu -p ${dockerhub}"
+				    withCredentials([string(credentialsId: 'dockerHub', variable: 'dockerHub')]) {
+            				sh "docker login -u anis2k07 -p ${dockerHub}"
 				    }
 				        myimage.push("${env.BUILD_ID}")
 				    
